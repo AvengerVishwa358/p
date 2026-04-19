@@ -1,0 +1,40 @@
+# Practical 2
+# Title: To Demonstrate Non-Monotonic Reasoning by implementing logic-based reasoning with exceptions (e.g., default reasoning) in python
+
+# code : 
+def check_office(day, dm):
+
+    if day == "Saturday" or day == "Sunday":
+        status = "CLOSED"
+        reason = "it is the weekend"
+    else:
+        status = "OPEN"
+        reason = "it is a weekday"
+
+    print(f"Initial Assumption: On {day}, {dm}, the office should be 	{status}.")
+
+
+   
+    holidays = {
+         "26/1": "Republic Day",
+         "14/4": "Dr. Babasaheb Ambedkar Birth Anniversary",
+         "15/8": "Independence Day",
+         "2/10": "Gandhi Jayanti",
+         "6/12": "Mahaparinirvan Diwas"
+     }
+
+    if dm in holidays:
+        status = "CLOSED"
+        reason = f"it is {holidays[dm]}"
+        print("New information found (Holiday) !!!")
+
+
+    print(f"FINAL DECISION: Office is {status} because {reason}.\n")
+
+
+da = input("Enter Date : ")
+m = input("Enter Month : ")
+d = input("Enter Day : ")
+date = da + '/' + m
+
+check_office(d, date)
