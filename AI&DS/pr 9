@@ -1,0 +1,46 @@
+# Practical 9
+
+# Title: To perform EDA on a dataset by calculating descriptive Statistics and visualizing the data using python libraries
+
+# Code : 
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+d1 = pd.read_csv('pr_9_data.csv')
+d1.head().info()
+
+# checking if some values are missoing or not
+print(d1.isnull().sum())
+
+print("Highest marks scored by whom in which subject : ")
+s1 = d1["Maths"].max()
+s2 = d1["English"].max()
+s3 = d1["Science"].max()
+print("Maths : ", s1)
+print("Scored by : ",d1[d1["Maths"]==s1]["Student"])
+print("English : ",s2)
+print("Scored by : ",d1[d1["English"]==s2]["Student"])
+print("Science : ",s3)
+print("Scored by : ",d1[d1["Science"]==s3]["Student"])
+
+d1[['Maths','Science','English']].hist()
+plt.suptitle("Marks Distribution")
+plt.show()
+
+plt.figure()
+sns.boxplot(d1[['Maths','Science','English']])
+plt.title("Boxplot of Marks")
+plt.show()
+
+plt.figure()
+sns.scatterplot(x='StudyHours', y='Maths', data=d1)
+plt.title("Study Hours vs Maths Marks")
+plt.show()
+
+
+plt.figure()
+sns.heatmap(d1.corr(numeric_only=True), annot=True)
+plt.title("Correlation Heatmap")
+plt.show()
