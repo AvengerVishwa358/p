@@ -1,0 +1,52 @@
+Practical 3
+
+# Title: To represent real-world knowledge using Semantic Networks and perform inference (relationship reasoning)among entities using Python
+
+# code : 
+books = {
+    "Book" : {
+        "written by" : None,
+        "price" : [None,None]
+    },
+    "Kavya Phule": {
+        "written by": "Savatribai Phule",
+        "price": ["₹450 to ₹550", "Shree Ram Book Stall, Amravati"]
+    },
+    "Train to Pakistan": {
+        "written by": "Khushwant Singh",
+        "price": ["₹199 to ₹250", "Gajanan Book Stall,Amravati"]
+    },
+
+    "Annihilation of Caste": {
+        "written by": "Dr. B.R. Ambedkar",
+        "price": ["₹149 to ₹199", "Maitri Book Depo Amravati"]
+    },
+
+    "Gulamgiri (Slavery)": {
+        "written by": "Mahatma Jyotirao Phule",
+        "price": ["₹120 to ₹180", "Maitri Book Depo Amravati"]
+    }
+}
+
+def get_book_details(book_name):
+    if book_name not in books:
+        return None
+    
+    details = books[book_name]
+    author = details["written by"]
+    price_range = details["price"][0] # Taking the first string in the list
+    stall = details["price"][1]
+    return f"Written by {author}, Price: {price_range}, Available at {stall}"
+
+def infer(book_name):
+    details = get_book_details(book_name)
+    if not details:
+        return f"No information available for '{book_name}'."
+    
+    return f"{book_name} properties (inferred): {details}"
+
+# Corrected the spelling of "Annihilation" in the list below
+pustak = ["Gulamgiri (Slavery)", "Annihilation of Caste", " to Pakistan","Book"]
+
+for b in pustak:
+    print(infer(b))
