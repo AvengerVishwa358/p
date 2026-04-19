@@ -1,0 +1,26 @@
+# practical 8
+
+# Title: To perform a data cleaning technique such as handling missing values, encoding categorical variables, and scaling/normalizing data
+
+# code :
+
+import pandas as pd
+dat = pd.read_csv('cars.csv')
+dat
+dat.isnull()
+
+encode = dat.notna().astype(int)
+encode             # one-hot encoding
+
+dat['launch year'] = dat['launch year'].fillna(dat['launch year'].mean())
+dat['price(lakh)'] = dat['price(lakh)'].fillna(dat['price(lakh)'].mean())
+dat
+
+
+from sklearn.preprocessing import LabelEncoder 
+df = pd.DataFrame(dat)
+df
+
+encoder = LabelEncoder() 
+df["model No."] = encoder.fit_transform(df["model No."]) 
+Df
