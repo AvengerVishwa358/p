@@ -1,0 +1,59 @@
+# Practical Number 1
+
+# Aim: Implement a Tic-Tac-Toe game where the AI plays optimally against a human using the minimax algorithm. 
+# Code :
+
+board = [' ']*9
+def print_board():
+    print()
+    print(f" {board[0]} | {board[1]} | {board[2]} ")
+    print("---+---+---")
+    print(f" {board[3]} | {board[4]} | {board[5]} ")
+    print("---+---+---")
+    print(f" {board[6]} | {board[7]} | {board[8]} ")
+    print()
+def check_winner(symbol):
+    winning_positions = [
+        (0,1,2), (3,4,5), (6,7,8),
+        (0,3,6), (1,4,7), (2,5,8),
+        (0,4,8), (2,4,6)
+    ]
+    for a, b, c in winning_positions:
+        if board[a] == board[b] == board[c] == symbol:
+            return True
+    return False
+
+
+def check_draw():
+    return ' ' not in board
+
+def player_move(symbol):
+    move = int(input(f"Player {symbol}, enter position (1-9): ")) - 1
+
+    if board[move] == ' ':
+        board[move] = symbol
+    else:
+        print("That spot is already taken!")
+        player_move(symbol)
+def play_game():
+    current_player = 'X'
+    print_board()
+
+    while True:
+        player_move(current_player)
+        print_board()
+
+        if check_winner(current_player):
+            print(f"Player {current_player} wins!")
+            break
+
+        if check_draw():
+            print("It's a draw!")
+            break
+
+        if current_player == 'X':
+            current_player = 'O'
+        else:
+            current_player = 'X'
+
+play_game()
