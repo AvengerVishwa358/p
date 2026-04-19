@@ -1,0 +1,106 @@
+# Practical 6
+
+# Title: To implement the AO* (AND-OR Graph) algorithm for solving problem reduction tasks.
+
+# Code : 
+
+import matplotlib.pyplot as plt
+
+graph = {
+    'A': [('AND', {'B': 3, 'C': 2}), ('OR', {'D': 4})],
+    'B': [('OR', {'E': 2})],
+    'E': [('OR', {'G': 0})],
+    'C': [('OR', {'G': 0})],
+    'D': [('OR', {'G': 0})]
+}
+
+heuristic = {
+    'A': 7,
+    'B': 4,
+    'C': 6,
+    'D': 5,
+    'E': 4,
+    'G': 0
+}
+
+def get_path(Node):
+    if Node not in graph:
+        return heuristic[Node], [Node]
+
+    b_cost = float('inf')
+    b_path = None
+
+    for branch_type, branches in graph[Node]:
+        if branch_type == 'AND':
+            pcost = 0
+            path = [Node]
+
+            for branch, wght in branches.items():
+                bcost, bpath = get_path(branch)
+                pcost += wght + bcost
+                path += bpath
+
+        else:  # OR
+            pcost = float('inf')
+            path = None
+
+            for branch, wght in branches.items():
+                bcost, bpath = get_path(branch)
+                fcost = wght + bcost
+
+                if fcost < pcost:
+                    pcost = fcost
+                    path = [Node] + bpath
+
+        if pcost < b_cost:
+            b_cost = pcost
+            b_path = path
+
+    return b_cost, b_path
+
+
+# Run AO* search
+f_cost, f_path = get_path('A')
+
+print("The path cost is:", f_cost)
+print("The path is:", " -> ".join(f_path))
+
+
+
+
+
+# ---------------- GRAPH VISUALIZATION ---------------- #
+
+
+plt.figure()
+
+# Draw nodes (clean labels)
+for node, (x, y) in pos.items():
+    plt.scatter(x, y)
+    plt.text(x, y, f"{node}", fontsize=12, ha='center', va='center')
+
+# Draw edges (light lines)
+for parent, branches in graph.items():
+    for branch_type, children in branches:
+        for child, weight in children.items():
+            x_values = [pos[parent][0], pos[child][0]]
+            y_values = [pos[parent][1], pos[child][1]]
+
+            # light edge
+            plt.plot(x_values, y_values, linestyle='--')
+
+            # small weight label only
+            mid_x = (pos[parent][0] + pos[child][0]) / 2
+            mid_y = (pos[parent][1] + pos[child][1]) / 2
+            plt.text(mid_x, mid_y, str(weight), fontsize=8)
+
+# Highlight optimal path (clean bold line)
+for (u, v) in optimal_path:
+    x_values = [pos[u][0], pos[v][0]]
+    y_values = [pos[u][1], pos[v][1]]
+    plt.plot(x_values, y_values, linewidth=3)
+
+plt.title("AO* Optimal Path")
+plt.axis('off')  # remove axes for clean look
+plt.show()
+
