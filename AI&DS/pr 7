@@ -1,0 +1,31 @@
+# Practical Number 7
+
+# Title: Load and explore a real-world dataset (CSV format), understand its structure, and summarize key statistics in Python
+
+# Code :
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+daf = pd.read_csv("result.csv")
+daf
+
+print(df.describe())
+Print(daf.isnull())
+
+print(daf.info())
+
+print(daf.head())
+
+print(daf.tail())
+
+print(daf.max())
+
+print(daf.min())
+
+print("The overall final percentage of marks : ",daf["Percentage"].mean())
+
+
+plt.bar(daf['Subject'],df['Percentage'], color="green")
+
+plt.pie(daf["Percentage"], labels=daf['Subject'])
