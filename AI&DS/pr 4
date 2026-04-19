@@ -1,1 +1,92 @@
-practical 4
+# practical 4
+
+# Title: To solve a path finding problem using the A* algorithm and visualize the search process on a graph
+
+# Code :
+
+import numpy as np
+import matplotlib.pyplot as plt
+from heapq import heappush, heappop
+
+# Create 8x8 grid
+grid = np.zeros((8, 8))
+
+# Add obstacles (1 = wall)
+grid[2, 1:6] = 1
+grid[5, 2:7] = 1
+
+# Start and Goal positions
+start = (0, 0)
+goal = (4, 6)
+
+def a_star(grid, start, goal):
+    # Heuristic function (Euclidean distance)
+    h = lambda p: np.linalg.norm(np.array(p) - np.array(goal))
+
+    # Priority queue: (f, g, node, path)
+    pq = [(h(start), 0, start, [])]
+    visited = set()
+
+    while pq:
+        f, g, node, path = heappop(pq)
+
+        # Skip already visited nodes
+        if node in visited:
+            continue
+
+        visited.add(node)
+        path = path + [node]
+
+        # Goal reached
+        if node == goal:
+            return path, visited
+
+        # 8-direction movement
+        moves = [
+            (0, 1, 1),   (0, -1, 1),
+            (1, 0, 1),   (-1, 0, 1),
+            (1, 1, 1.41), (1, -1, 1.41),
+            (-1, 1, 1.41), (-1, -1, 1.41)
+        ]
+
+        for dr, dc, w in moves:
+            r = node[0] + dr
+            c = node[1] + dc
+
+            if 0 <= r < 8 and 0 <= c < 8 and grid[r, c] == 0:
+                heappush(pq, (g + w + h((r, c)), g + w, (r, c), path))
+
+    return None, visited
+
+
+# Run A* algorithm
+path, explored = a_star(grid, start, goal)
+
+# Visualization
+plt.figure(figsize=(6, 6))
+plt.imshow(grid, cmap="gray_r")
+
+# Plot explored nodes
+for r, c in explored:
+    plt.plot(c, r, 'co', markersize=4)
+
+# Plot final path
+if path:
+    for i in range(len(path) - 1):
+        r1, c1 = path[i]
+        r2, c2 = path[i + 1]
+        plt.plot([c1, c2], [r1, r2], 'r-')
+
+    for r, c in path:
+        plt.plot(c, r, 'ro', markersize=6)
+
+# Start and Goal markers
+plt.plot(start[1], start[0], 'gs', markersize=10, label="Start")
+plt.plot(goal[1], goal[0], 'bs', markersize=10, label="Goal")
+
+plt.title("A* Search: Diagonal Movement")
+plt.legend()
+plt.grid(True)
+plt.show()
+
+print("Path:", path)
