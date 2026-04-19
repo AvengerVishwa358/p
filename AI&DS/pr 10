@@ -1,0 +1,39 @@
+# Practical 10
+
+# Title: To compute and interpret statistical measures such as mean, median, mode, range, variance, standard deviation, and interquartile range using Python libraries.
+
+# Code :
+
+import pandas as pd
+import matplotlib.pyplot as plt
+d2 = pd.read_csv("pr_10.csv")
+d2
+
+print("Mean of the data : ",end="")
+print(d2['Salary'].mean())
+
+print("This is median of the Salary : ",end="")
+print(d2["Salary"].median())
+
+print("This is the mode of the salary : ",end="")
+print(d2["Salary"].mode()) # output will automatically be in ascending order
+
+print("This is the Range of salary for the company : ",end="")
+print(d2['Salary'].max() - d2['Salary'].min())
+
+print("Varience in the salary is : ",end="")
+print(d2['Salary'].var())
+
+
+print("The standard deviation : ",end="")
+print(d2['Salary'].std())
+
+Q1 = d2['Experience'].quantile(0.05)
+Q3 = d2['Experience'].quantile(0.95)
+IQR = Q3 - Q1
+
+print("Q1:", Q1)
+print("Q3:", Q3)
+print("Interquartile Range (IQR):", IQR)
+
+plt.bar(d2["Experience"],d2["Salary"], color="blue")
