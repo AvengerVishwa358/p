@@ -1,28 +1,9 @@
 Aim : Exploaration of the node.js and its installation to print hello world.
 
-const { createServer } = require('node:http');
+const fs = require('fs')
+var text1 = fs.readFileSync("file_01.txt", "utf-8");
+console.log(text1)
 
-// Hype
-
-const hostname 127.0.9.1';
-
-const port = 3000;
-
-const server = createServer((req, res) => {
-
-res.statusCode = 200;
-
-res.setHeader('Content-Type', 'text/plain');
-
-res.end 'Hello World');
-
-});
-
-server.listen(port, hostname, () => {
-
-console.log(`Server running at http://${hostname}:${port}/`);
-
-console.log(`This is the first Output: ${hostname}`);
-
-
-});
+var text2 = fs.readFileSync("file_01.txt","utf-8")
+text2 = text2.replace("Hello!", "Konichiwa!")
+console.log(text2)
